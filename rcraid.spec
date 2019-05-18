@@ -1,11 +1,11 @@
-Name:       rc-raid
+Name:       AMD-Fake-Raid
 Version:    1.0
 Release:    1%{?dist}
 Summary:    Ryzen Fakeraid dkms module for chipset 4xx and 3xx
 License:    Properitary
-URL:        https://github.com/lyra00/AMD-Fake-Raid.git
+URL:        https://github.com/lyra00/AMD-Fake-Raid
 
-Source0: https://github.com/lyra00/AMD-Fake-Raid/archive/%{version}.tar.gz
+Source0: %{url}/archive/%{name}-%{version}.tar.gz
 
 Requires: dkms
 Requires: kernel-devel
@@ -23,25 +23,31 @@ There is currently no smart support for Drives in FakeRaidMode
 
 #--
 %prep
-%setup -q -n rcraid-1.0
+%setup -q -n AMD-Fake-Raid-%{version}
 
 %install
-install -D -m 0644 *.c -t "%{buildroot}%{_usrsrc}/rcraid/"
-install -m 0644 Makefile -t "%{buildroot}%{_usrsrc}/rcraid/"
-install -m 0644 fedora/rcraid-dkms.dkms "%{buildroot}%{_usrsrc}/rcraid/dkms.conf"
+
+install -D -m 0644 *.c -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 *.h -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 common_shell -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 LICENSE_SDK -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 *.i386 -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 *.x86_64 -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"   
+install -m 0644 Makefile -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
+install -m 0644 dkms.conf "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/dkms.conf"
 
 # do after installation
 %post
-sed -i 's/PACKAGE_VERSION="#MODULE_VERSION#"/PACKAGE_VERSION="1.0"/g' %{_usrsrc}/rcraid/dkms.conf
+sed -i 's/PACKAGE_VERSION="#MODULE_VERSION#"/PACKAGE_VERSION="%{version}"/g' %{_usrsrc}/AMD-Fake-Raid/dkms.conf
 
-/usr/bin/env dkms add -m rcraid -v 1.0 --rpm_safe_upgrade
-/usr/bin/env dkms build -m rcraid -v 1.0
-/usr/bin/env dkms install -m rcraid -v 1.0 --force
+/usr/bin/env dkms add -m AMD-Fake-Raid -v %{version} --rpm_safe_upgrade
+/usr/bin/env dkms build -m AMD-Fake-Raid -v %{version}
+/usr/bin/env dkms install -m AMD-Fake-Raid -v %{version} --force
 
 %preun
-/usr/bin/env rmmod rcraid
-/usr/bin/env dkms remove -m rcraid -v 1.0 --all --rpm_safe_upgrade
+/usr/bin/env rmmod AMD-Fake-Raid
+/usr/bin/env dkms remove -m rcraid -v %{version} --all --rpm_safe_upgrade
 
 # Those files will be in the rpm
 %files
-%{_usrsrc}/rcraid-1.0
+%{_usrsrc}/AMD-Fake-Raid-%{version}
