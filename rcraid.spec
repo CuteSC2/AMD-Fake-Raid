@@ -31,6 +31,7 @@ cd %{NVdir}
 
 %install
 
+ls
 install -D -m 0644 *.c -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
 install -D -m 0644 *.h -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
 install -D -m 0644 common_shell -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
