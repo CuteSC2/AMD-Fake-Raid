@@ -46,27 +46,27 @@ ifndef KDIR
 KDIR    := /usr/src/kernels/$(KVERS)
 endif
 
-#ifdef KBUILD_SRC
-#ifneq ($(shell grep --quiet "irq_handler_t" $(srctree)/include/linux/interrupt.h && echo yes), yes)
-#EXTRA_CFLAGS += -DNO_IRQ_HANDLER_T
-#endif
-#endif
+ifdef KBUILD_SRC
+ifneq ($(shell grep --quiet "irq_handler_t" $(srctree)/include/linux/interrupt.h && echo yes), yes)
+EXTRA_CFLAGS += -DNO_IRQ_HANDLER_T
+endif
+endif
 
 PWD    := $(shell pwd)
 
 .PHONY: install bbanner ibanner
 
 all: bbanner
-	$(MAKE) -C $(KDIR) M=$(PWD) modules
+	$(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules
 
 clean:
-	@rm -f *.o *.ko vers.c .*.cmd .*.d 
+	@rm -f *.o *.ko vers.c .*.cmd .*.d
 	@rm -f rcraid.mod.c Module.symvers Modules.symvers
-	@rm -rf .tmp_versions Module.markers modules.order---------------------------------------------------
+	@rm -rf .tmp_versions Module.markers modules.order
 
-obj-m += rcraid.o
+obj-m := rcraid.o
 
-rcraid-objs := rc_init.o rc_msg.o rc_mem_ops.o rc_event.o rc_config.o rcblob.${PLATFORM} \
+rcraid-objs := rc_init.o rc_msg.o rc_mem_ops.o rc_event.o rc_config.o rcblob.${PLATFORM}.o \
 	       vers.o
 
 .PHONY:	$(obj)/vers.c
@@ -75,6 +75,7 @@ $(obj)/vers.c:
 
 # hack to avoid warning about missing .rcblob.cmd file when modpost tries to
 # find all the sources
-.PHONY: $(obj)/rcblob.${PLATFORM}
-$(obj)/rcblob.${PLATFORM}:
+.PHONY: $(obj)/rcblob.${PLATFORM}.o
+$(obj)/rcblob.${PLATFORM}.o:
+	ln -sf `basename $@ .o` $@
 	@( echo "cmd_$@ := true"; echo "dep_$@ := \\"; echo "	$@ \\"; echo "" ) > $(obj)/.`basename $@`.cmd

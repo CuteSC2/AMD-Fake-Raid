@@ -40,7 +40,9 @@ typedef int (* rc_adapter_func_t)(struct rc_adapter_s *adapter);
 #define MAX_HBA             8
 #define MAX_TOTAL_PORTS     (MAX_HBA * MAX_PORTS_PER_HA)
 #define MAX_ARRAY           32
+#ifndef SECTOR_SIZE
 #define SECTOR_SIZE         512
+#endif
 
 #define PCI_CFG_SIZE    256
 typedef struct rc_hw_info {
@@ -149,11 +151,11 @@ typedef struct rc_softstate  {
 	struct rc_srb_queue_s  srb_done;
 	struct rc_mop_queue_s  mop_done;
 	struct tasklet_struct  intr_tasklet;
-    
+
     struct delayed_work resume_work;
     int is_suspended;
     uint                   adapter_is_suspended;
-    
+
 	atomic_t               intr_pending;
 	rc_stats_t             stats;
 } rc_softstate_t;
