@@ -5,7 +5,7 @@ Summary:    Ryzen Fakeraid dkms module for chipset 4xx and 3xx
 License:    Properitary
 URL:        https://github.com/lyra00/AMD-Fake-Raid       
 
-Buildrequires:  git
+BuildRequires:  git
 
 Requires: dkms
 Requires: kernel-devel
@@ -28,7 +28,6 @@ There is currently no smart support for Drives in FakeRaidMode
 rm -rf %{buildroot}/git
 git clone %{url}.git %{buildroot}/git
 
-ls -d $PWD/*
 install -D -m 0644 *.c -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
 install -D -m 0644 *.h -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
 install -D -m 0644 common_shell -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
