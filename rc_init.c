@@ -57,7 +57,7 @@
 
 MODULE_AUTHOR(VER_COMPANYNAME_STR);
 MODULE_DESCRIPTION("AMD-RAID controller");
-MODULE_LICENSE("Proprietary");
+MODULE_LICENSE("GPL");
 
 static int debug = 0;
 #ifdef module_param_named
