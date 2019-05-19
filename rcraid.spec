@@ -43,7 +43,7 @@ install -m 0644 dkms.conf "%{buildroot}/AMD-Fake-Raid-%{version}/dkms.conf"
 
 # do after installation
 %post
-sed -i 's/PACKAGE_VERSION="#MODULE_VERSION#"/PACKAGE_VERSION="%{version}"/g' /AMD-Fake-Raid-%{version}/dkms.conf
+sed -i 's/PACKAGE_VERSION="#MODULE_VERSION#"/PACKAGE_VERSION="%{version}"/g' %{_usrsrc}/AMD-Fake-Raid/dkms.conf
 
 /usr/bin/env dkms add -m AMD-Fake-Raid -v %{version} --rpm_safe_upgrade
 /usr/bin/env dkms build -m AMD-Fake-Raid -v %{version}
@@ -55,4 +55,4 @@ sed -i 's/PACKAGE_VERSION="#MODULE_VERSION#"/PACKAGE_VERSION="%{version}"/g' /AM
 
 # Those files will be in the rpm
 %files
-%{buildroot}/AMD-Fake-Raid-%{version}
+%{_usrsrc}/AMD-Fake-Raid-%{version}
