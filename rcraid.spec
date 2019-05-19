@@ -24,12 +24,9 @@ There is currently no smart support for Drives in FakeRaidMode
 #--
 %define NVdir   %{buildroot}%{_usrsrc}/%{name}-%{version}
 
-%prep
-rm -rf %{NVdir}
-git clone %{url}.git %{NVdir}
-cd %{NVdir}
-
 %install
+rm -rf %{buildroot}/git
+git clone %{url}.git %{buildroot}/git
 
 install -D -m 0644 *.c -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
 install -D -m 0644 *.h -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
@@ -39,6 +36,8 @@ install -D -m 0644 *.i386 -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
 install -D -m 0644 *.x86_64 -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"   
 install -m 0644 Makefile -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
 install -m 0644 dkms.conf "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/dkms.conf"
+
+rm -rf %{buildroot}/git
 # do after installation
 %post
 sed -i 's/PACKAGE_VERSION="#MODULE_VERSION#"/PACKAGE_VERSION="%{version}"/g' %{_usrsrc}/AMD-Fake-Raid/dkms.conf
