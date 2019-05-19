@@ -5,6 +5,8 @@ Summary:    Ryzen Fakeraid dkms module for chipset 4xx and 3xx
 License:    Properitary
 URL:        https://github.com/lyra00/AMD-Fake-Raid       
 
+Buildrequires:  git
+
 Requires: dkms
 Requires: kernel-devel
 
