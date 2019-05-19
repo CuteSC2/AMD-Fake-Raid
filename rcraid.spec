@@ -22,6 +22,7 @@ There is currently no smart support for Drives in FakeRaidMode
 %define debug_package %{nil}
 
 #--
+%define _usrsrc /usr/src
 %define NVdir   %{buildroot}%%{_usrsrc}/%{name}-%{version}
 
 %prep
