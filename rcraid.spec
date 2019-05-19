@@ -32,18 +32,18 @@ cd %{NVdir}
 %install
 
 ls
-install -D -m 0644 *.c -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
-install -D -m 0644 *.h -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
-install -D -m 0644 common_shell -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
-install -D -m 0644 LICENSE_SDK -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
-install -D -m 0644 *.i386 -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
-install -D -m 0644 *.x86_64 -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"   
-install -m 0644 Makefile -t "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/"
-install -m 0644 dkms.conf "%{buildroot}%{_usrsrc}/AMD-Fake-Raid-%{version}/dkms.conf"
+install -D -m 0644 *.c -t "%{buildroot}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 *.h -t "%{buildroot}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 common_shell -t "%{buildroot}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 LICENSE_SDK -t "%{buildroot}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 *.i386 -t "%{buildroot}/AMD-Fake-Raid-%{version}/"
+install -D -m 0644 *.x86_64 -t "%{buildroot}/AMD-Fake-Raid-%{version}/"   
+install -m 0644 Makefile -t "%{buildroot}/AMD-Fake-Raid-%{version}/"
+install -m 0644 dkms.conf "%{buildroot}/AMD-Fake-Raid-%{version}/dkms.conf"
 
 # do after installation
 %post
-sed -i 's/PACKAGE_VERSION="#MODULE_VERSION#"/PACKAGE_VERSION="%{version}"/g' %{_usrsrc}/AMD-Fake-Raid/dkms.conf
+sed -i 's/PACKAGE_VERSION="#MODULE_VERSION#"/PACKAGE_VERSION="%{version}"/g' /AMD-Fake-Raid-%{version}/dkms.conf
 
 /usr/bin/env dkms add -m AMD-Fake-Raid -v %{version} --rpm_safe_upgrade
 /usr/bin/env dkms build -m AMD-Fake-Raid -v %{version}
@@ -55,4 +55,4 @@ sed -i 's/PACKAGE_VERSION="#MODULE_VERSION#"/PACKAGE_VERSION="%{version}"/g' %{_
 
 # Those files will be in the rpm
 %files
-%{_usrsrc}/AMD-Fake-Raid-%{version}
+%{buildroot}/AMD-Fake-Raid-%{version}
